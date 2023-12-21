@@ -1,0 +1,9 @@
+.create_user {
+    color: hotpink;
+    /* background-color: red; */
+}
+.register {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto; /* Cân lề giữa bảng */
+}
