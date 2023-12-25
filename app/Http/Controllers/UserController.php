@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use App\events\SendMailEvent;
 use Illuminate\Support\Facades\Event;
 
+
 class UserController extends Controller
 
 
@@ -30,7 +31,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
 
-        // Xác thực dữ liệu
+
         $validate = Validator::make($request->all(), [
             'name' => 'required',
             'password' => 'required',
@@ -51,8 +52,14 @@ class UserController extends Controller
         $this->user->password = Hash::make($request->password);
         $this->user->email = $request->input('email');
         $this->user->save();
-        Event::dispatch(new SendMailEvent($this->user));
-        return  redirect('/register')->with("success", 'thanh cong');
+        $job = (new SendMailEvent($this->user));
+        dd(Event::dispatch($job));
+        Event::dispatch($job);
+
+
+
+
+        return redirect('/register')->with("success", 'thanh cong');
     }
 
     public function update(Request $request, $id)

@@ -9,6 +9,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use App\Models\User;
 
 class SendMailEvent
 {
@@ -17,10 +18,10 @@ class SendMailEvent
     /**
      * Create a new event instance.
      */
-    public $user_id;
-    public function __construct($user_id)
+    public $user;
+    public function __construct(User $user)
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
     }
 
     /**

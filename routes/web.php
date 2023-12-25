@@ -24,7 +24,7 @@ Route::prefix('task')->group(function () {
 });
 Route::prefix('')->group(function () {
     Route::get('/register', [UserController::class, 'index'])->name('user.index');
-    Route::post('checkLogin', [UserController::class, 'store'])->name('user.store');
+    Route::post('register', [UserController::class, 'store'])->name('user.store');
     Route::get('/edit/{id}', [UserController::class, 'show'])->name('user.show');
     Route::post('/edit/{id}', [UserController::class, 'update'])->name('user.update');
     Route::get('delete/{id}', [UserController::class, 'delete'])->name('delete');

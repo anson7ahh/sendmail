@@ -7,9 +7,14 @@ use App\events\SendMailEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Bus\Queueable;
 
-class SendMailListen
+
+class SendMailListen  extends Mailable implements ShouldQueue
 {
+    use Queueable, SerializesModels;
     /**
      * Create the event listener.
      */
@@ -21,13 +26,16 @@ class SendMailListen
     /**
      * Handle the event.
      */
-    public function handle(SendMailEvent $event): void
+    public function handle(SendMailEvent $event)
     {
-        $user = User::findorfail($event->user_id)->toArray();
+        $user = User::find($event->user)->toArray();
 
-        Mail::send('layouts.mails.mail', $user, function ($massage) use ($user) {
-            $massage->to($user['email']);
-            $massage->subject('mail');
+        return Mail::queue('layouts.mails.mail',  compact('user'), function ($massage) use ($user) {
+
+
+            $massage->to(($user[0]['email']));
+
+            $massage->subject('welcome ');
         });
     }
 }
